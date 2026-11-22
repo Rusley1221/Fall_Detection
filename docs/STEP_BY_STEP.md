@@ -238,8 +238,13 @@ vercel --prod
 - Chip sensitivitas **Demo** tidak terlihat → pada versi lama chip ke-4 terpotong karena `Row`
   meluber. `ProfileScreen.kt` kini memakai `FlowRow` sehingga chip membungkus ke baris berikutnya.
   Lakukan **Sync Now** lalu build ulang APK (debug/release) dan install ulang di HP.
-- Pesan `HTTP 402 Payment Required` → buka URL `/api/v1/health` di browser HP. Kalau 200, masalahnya
-  ada di jaringan/VPN/proxy HP, bukan backend. Matikan VPN/ad-blocker atau ganti mobile data.
+- Pesan `HTTP 402 Payment Required` → hampir selalu berarti `BuildConfig.API_BASE_URL` masih
+  `https://YOUR-APP.vercel.app/api/v1/` (URL placeholder; memang merespons 402). Cek baris
+  `buildConfigField("String", "API_BASE_URL", ...)` di `app/build.gradle.kts` **atau** `apiBaseUrl`
+  dan `apiBaseUrlRelease` di `gradle.properties` pada paket sumber terbaru. Ganti ke URL Vercel
+  asli, **Sync Now**, lalu build ulang APK. Verifikasi dengan mencari string `vercel.app` di
+  `classes*.dex` dalam APK yang diinstall. Kalau URL di APK sudah benar tetapi browser HP juga
+  mendapat 402, barulah masalahnya di jaringan/VPN/proxy HP.
 
 ---
 

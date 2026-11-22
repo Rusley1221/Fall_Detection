@@ -20,7 +20,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_BASE_URL", "\"http://192.168.1.7:3000/api/v1/\"")
+        buildConfigField("String", "API_BASE_URL", "\"https://falldetectionbackend.vercel.app/api/v1/\"")
         buildConfigField("String", "API_KEY", "\"fall-detection-ta-2026\"")
     }
 
@@ -31,8 +31,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            // Ganti dengan HTTPS URL hasil deploy Vercel sebelum build release.
-            buildConfigField("String", "API_BASE_URL", "\"https://YOUR-APP.vercel.app/api/v1/\"")
+            // URL produksi Vercel (HTTPS).
+            buildConfigField("String", "API_BASE_URL", "\"https://falldetectionbackend.vercel.app/api/v1/\"")
         }
     }
 
