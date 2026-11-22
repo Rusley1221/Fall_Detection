@@ -1,6 +1,6 @@
 # Hasil Audit & Testing
 
-Tanggal audit: 20 November 2026
+Tanggal audit: 20 November 2026 (pembaruan verifikasi deploy: 22 November 2026)
 Objek: proyek `FallDetection_TA` (backend + Android + database + dokumen)
 
 ## 1. Metode audit
@@ -41,6 +41,12 @@ PASS  DELETE /falls/:id -> 200
 
 Hasil: 18 lulus, 0 gagal
 ```
+
+Verifikasi produksi 22 November 2026 (Vercel → Supabase): setelah `DATABASE_URL` diisi di
+Environment Variables Production dan deployment diulang, log runtime menampilkan
+`[db] Mode PostgreSQL/Supabase aktif`. User yang dibuat lewat `POST /users` masih bisa dibaca
+lewat `GET /users/me` pada invocation terpisah, sementara user uji yang dibuat saat masih mode
+memori sudah mengembalikan 404. Artinya data kini benar-benar persisten di Supabase.
 
 Tambahan hasil audit lanjutan (setelah perbaikan):
 
@@ -86,6 +92,8 @@ PASS  Retry dengan client_id sama tidak menduplikasi kejadian
 | 29 | `.env` backend tidak pernah dibaca Node.js | Mode Supabase tidak aktif; perubahan hanya di memori | Ditambahkan `backend/src/config/env.js`, dipanggil sebelum `initDb()` dan pembacaan `PORT` |
 | 30 | Base URL tanpa `/api/v1/` atau tanpa trailing `/` | Semua GET/POST kena **HTTP 404** (kontak/riwayat/profil kosong, setting gagal) | `RetrofitClient.normalizeBaseUrl()` menambahkan skema, `/api/v1`, dan trailing `/` |
 | 31 | `.env` mengisi `DATABASE_URL` dengan URL REST `https://<ref>.supabase.co/rest/v1/` dan `API_KEY` dengan `sb_publishable_...` | `pg` gagal menyambung tanpa pesan jelas; backend diam-diam jatuh ke mode memori, user lama jadi 404 setelah restart | Validasi format `postgresql://` di `initDb()` + contoh `.env.example` diperjelas; panduan restart & clear data ditambahkan |
+| 32 | `DATABASE_URL` hanya ada di `backend/.env` lokal, tidak di Vercel | Backend produksi tetap mode memori; data dari APK release tidak masuk Supabase | Environment variable ditambahkan di Vercel Dashboard → Settings → Environment Variables (centang **Production**), lalu redeploy; log harus `[db] Mode PostgreSQL/Supabase aktif` |
+| 33 | Vercel salah mendeteksi `backend/src/app.js` sebagai entry point framework | `Invalid export found in module ".../src/app.js"` pada request `/` | `backend/vercel.json` ditambah `"framework": null`; `src/app.js` menyediakan `export default createApp()` |
 
 ## 4. Pemeriksaan terhadap dokumen rencana (Bab 1–14)
 
@@ -122,8 +130,8 @@ PASS  Retry dengan client_id sama tidak menduplikasi kejadian
 | 3c. Minimal 5 halaman | ✅ 8 halaman | Tabel rute |
 | 3d. Minimal 2 halaman list + detail, data dari API | ✅ Riwayat→Detail, Kontak→Detail | `GET /falls(/:id)`, `GET /contacts(/:id)` |
 | 3e. Halaman Profile/About berisi nama user | ✅ Nama + NIM + About | `ProfileScreen.kt` |
-| 4. Unggah source code ke GitHub | ⚠️ Perlu dilakukan pengguna | Perintah ada di `STEP_BY_STEP.md` Langkah 6 |
-| 5. Link repository dicantumkan di kolom GitHub | ⚠️ Perlu diisi setelah push | — |
+| 4. Unggah source code ke GitHub | ✅ | `https://github.com/Rusley1221/Fall_Detection` (branch `main`) |
+| 5. Link repository dicantumkan di kolom GitHub | ✅ | URL repository di atas dicantumkan di form pengumpulan |
 | Nilai tambah APK | ✅ Prosedur debug & signed release tersedia | `STEP_BY_STEP.md` Langkah 5 |
 
 ## 6. Fitur tambahan sesuai permintaan
