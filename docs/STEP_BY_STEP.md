@@ -139,7 +139,10 @@ Syarat agar HP fisik bisa menjangkau API:
    - Langkah 3: berikan izin **Lokasi**, **Notifikasi** (Android 13+), dan **SMS Darurat** → **Selesai & Mulai**
      - Saat meminta izin SMS, Android menampilkan peringatan *"dangerous permission"*. Itu normal —
        tekan **Allow / Izinkan**. Kalau ditolak, SMS darurat tidak dikirim; aktifkan lagi lewat
-       Settings → Apps → Fall Detection → Permissions → SMS → Allow.
+       Settings → Apps → Fall Detection → Permissions → SMS → Allow. Jikalau tidak bisa, gunakan USB debug untuk memberikan izin melalui terminal
+       & $adb devices untuk menemukan  id device, lalu command
+       & $adb -s [ID_DEVICE] shell pm grant com.example.falldetection android.permission.SEND_SMS
+       & $adb -s [ID_DEVICE] shell dumpsys package com.example.falldetection | findstr SEND_SMS
 4. Beranda muncul dengan status *Pemantauan NONAKTIF*. Tekan **Aktifkan Pemantauan**.
 5. Notifikasi tetap tampil: *"Pemantauan jatuh aktif"*.
 
@@ -222,7 +225,7 @@ vercel --prod
 
 ---
 
-## Langkah 6 — Unggah ke GitHub (wajib kriteria tugas)
+## Langkah 6 — Unggah ke GitHub 
 
 ```powershell
 cd D:\TA\FallDetection_TA
