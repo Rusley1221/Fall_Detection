@@ -230,6 +230,17 @@ vercel --prod
   framework. `backend/vercel.json` sudah berisi `"framework": null` dan `backend/src/app.js`
   memiliki `export default createApp()`. Pastikan perubahan itu ikut ter-push ke GitHub.
 
+### troubleshooting APK release
+
+- `Profil tidak ditemukan` / 404 pada `/users/me` → `X-User-Id` di HP berasal dari user yang dibuat
+  saat backend masih mode memori. **Hapus data aplikasi atau uninstall**, lalu onboarding ulang agar
+  user dibuat langsung di Supabase.
+- Chip sensitivitas **Demo** tidak terlihat → pada versi lama chip ke-4 terpotong karena `Row`
+  meluber. `ProfileScreen.kt` kini memakai `FlowRow` sehingga chip membungkus ke baris berikutnya.
+  Lakukan **Sync Now** lalu build ulang APK (debug/release) dan install ulang di HP.
+- Pesan `HTTP 402 Payment Required` → buka URL `/api/v1/health` di browser HP. Kalau 200, masalahnya
+  ada di jaringan/VPN/proxy HP, bukan backend. Matikan VPN/ad-blocker atau ganti mobile data.
+
 ---
 
 ## Langkah 6 — Unggah ke GitHub (wajib kriteria tugas)

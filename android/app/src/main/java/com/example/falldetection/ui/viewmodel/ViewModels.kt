@@ -111,7 +111,6 @@ class HistoryViewModel(private val container: AppContainer) : ViewModel() {
 
     init { refresh() }
 
-    @JvmName("updateFilter")
     fun setFilter(value: String?) {
         filter = value
         refresh()
@@ -270,7 +269,7 @@ class FallDetailViewModel(
 class ProfileViewModel(private val container: AppContainer) : ViewModel() {
     var editableName by mutableStateOf("")
         private set
-    var impactIndex by mutableStateOf(1) // 0 Rendah, 1 Sedang, 2 Tinggi
+    var impactIndex by mutableStateOf(1) // 0 Rendah, 1 Sedang, 2 Tinggi, 3 Demo
         private set
     var countdown by mutableStateOf(20)
         private set

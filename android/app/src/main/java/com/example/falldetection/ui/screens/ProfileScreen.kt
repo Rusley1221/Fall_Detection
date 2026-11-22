@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -99,7 +100,10 @@ fun ProfileScreen(container: AppContainer) {
             Spacer(Modifier.height(12.dp))
             if (settings is AppResult.Loading) LoadingBox("Memuat pengaturan…")
             Text("Sensitivitas", style = MaterialTheme.typography.bodyLarge)
-            Row(horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
+            FlowRow(
+                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
+                verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
+            ) {
                 ProfileViewModel.IMPACT_LABELS.forEachIndexed { index, label ->
                     FilterChip(
                         selected = viewModel.impactIndex == index,
@@ -110,7 +114,10 @@ fun ProfileScreen(container: AppContainer) {
             }
             Spacer(Modifier.height(16.dp))
             Text("Hitung mundur peringatan", style = MaterialTheme.typography.bodyLarge)
-            Row(horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
+            FlowRow(
+                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
+                verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
+            ) {
                 ProfileViewModel.COUNTDOWNS.forEach { value ->
                     FilterChip(
                         selected = viewModel.countdown == value,
