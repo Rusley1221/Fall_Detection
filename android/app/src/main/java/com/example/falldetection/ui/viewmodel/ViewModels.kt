@@ -111,6 +111,7 @@ class HistoryViewModel(private val container: AppContainer) : ViewModel() {
 
     init { refresh() }
 
+    @JvmName("updateFilter")
     fun setFilter(value: String?) {
         filter = value
         refresh()
