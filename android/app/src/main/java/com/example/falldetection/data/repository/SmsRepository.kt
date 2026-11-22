@@ -89,7 +89,7 @@ class SmsRepository(
         val link = Format.mapsUrl(fall.latitude, fall.longitude)
         val location = link ?: "Lokasi tidak tersedia (GPS gagal)"
         return "DARURAT! Syauqi Akifur Rahman (NIM 21120124130097) terdeteksi jatuh " +
-                "pada ${Format.dateTime(fall.detected_at)}. Lokasi: $location. Mohon segera bantu."
+            "pada ${Format.dateTime(fall.detected_at)}. Lokasi: $location. Mohon segera bantu."
     }
 
     private companion object {

@@ -20,7 +20,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_BASE_URL", "\"http://192.168.1.17:3000/api/v1/\"")
+        buildConfigField("String", "API_BASE_URL", "\"http://192.168.1.7:3000/api/v1/\"")
         buildConfigField("String", "API_KEY", "\"fall-detection-ta-2026\"")
     }
 

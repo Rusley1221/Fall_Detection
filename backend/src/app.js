@@ -17,3 +17,6 @@ export function createApp() {
   app.use(errorHandler);
   return app;
 }
+
+// Diperlukan agar Vercel tidak menganggap file ini sebagai entry point framework.
+export default createApp();

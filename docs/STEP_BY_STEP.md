@@ -139,10 +139,7 @@ Syarat agar HP fisik bisa menjangkau API:
    - Langkah 3: berikan izin **Lokasi**, **Notifikasi** (Android 13+), dan **SMS Darurat** → **Selesai & Mulai**
      - Saat meminta izin SMS, Android menampilkan peringatan *"dangerous permission"*. Itu normal —
        tekan **Allow / Izinkan**. Kalau ditolak, SMS darurat tidak dikirim; aktifkan lagi lewat
-       Settings → Apps → Fall Detection → Permissions → SMS → Allow. Jikalau tidak bisa, gunakan USB debug untuk memberikan izin melalui terminal
-       & $adb devices untuk menemukan  id device, lalu command
-       & $adb -s [ID_DEVICE] shell pm grant com.example.falldetection android.permission.SEND_SMS
-       & $adb -s [ID_DEVICE] shell dumpsys package com.example.falldetection | findstr SEND_SMS
+       Settings → Apps → Fall Detection → Permissions → SMS → Allow.
 4. Beranda muncul dengan status *Pemantauan NONAKTIF*. Tekan **Aktifkan Pemantauan**.
 5. Notifikasi tetap tampil: *"Pemantauan jatuh aktif"*.
 
@@ -223,9 +220,19 @@ vercel login
 vercel --prod
 ```
 
+### troubleshooting Vercel
+
+- Log runtime menampilkan `[db] DATABASE_URL tidak ada -> mode memori` → environment variable
+  belum terbaca. Pastikan `DATABASE_URL` dan `API_KEY` ditambahkan di **Settings → Environment
+  Variables** untuk environment **Production**, lalu **Redeploy**. File `backend/.env` lokal
+  **tidak** dibaca Vercel.
+- Log menampilkan `Invalid export found in module ".../src/app.js"` → Vercel salah mendeteksi
+  framework. `backend/vercel.json` sudah berisi `"framework": null` dan `backend/src/app.js`
+  memiliki `export default createApp()`. Pastikan perubahan itu ikut ter-push ke GitHub.
+
 ---
 
-## Langkah 6 — Unggah ke GitHub 
+## Langkah 6 — Unggah ke GitHub (wajib kriteria tugas)
 
 ```powershell
 cd D:\TA\FallDetection_TA
