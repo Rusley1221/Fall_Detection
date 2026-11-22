@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fall Detection</string>
+    <string name="notification_channel_monitor">Pemantauan jatuh</string>
+    <string name="notification_channel_alert">Peringatan darurat</string>
+</resources>

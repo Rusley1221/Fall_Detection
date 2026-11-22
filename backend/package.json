@@ -1,0 +1,18 @@
+{
+  "name": "fall-detection-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "REST API buatan sendiri untuk Tugas Akhir Fall Detection (Modul 1)",
+  "scripts": {
+    "dev": "node src/server.js",
+    "dev:offline": "node src/server-node.js",
+    "start": "node src/server.js",
+    "test": "node scripts/smoke-test.mjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  }
+}

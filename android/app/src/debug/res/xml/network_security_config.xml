@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hanya untuk build debug: izinkan HTTP ke 10.0.2.2 (emulator) maupun IP LAN perangkat fisik.
+     Build release TIDAK memakai file ini sehingga hanya HTTPS yang diizinkan. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
