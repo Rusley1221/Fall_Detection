@@ -103,6 +103,7 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
 }
 
 class HistoryViewModel(private val container: AppContainer) : ViewModel() {
+    @set:JvmName("internalSetFilter")
     var filter by mutableStateOf<String?>(null)
         private set
 
