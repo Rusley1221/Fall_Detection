@@ -49,6 +49,10 @@ object DetectionStateHolder {
         _smsStatus.value = value
     }
 
+    fun clearSmsStatus() {
+        _smsStatus.value = ""
+    }
+
     fun setLastEvent(value: FallDto?) {
         _lastEvent.value = value
     }

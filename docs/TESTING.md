@@ -89,6 +89,42 @@ Wrapper Gradle (`gradlew.bat`, `gradlew`, `gradle-wrapper.jar`) sudah disertakan
 | UJ-24 | Matikan mode pesawat saat antrean offline, tunggu WorkManager | Kejadian terkirim sekali saja; `client_id` mencegah duplikat di server |
 | UJ-25 | Pilih sensitivitas **Demo**, angkat HP ±30 cm, lepaskan ke kasur/bantal, biarkan diam ±4 detik | Notifikasi merah 20 detik muncul; Logcat `DetectionService` mencatat peak ≥ 15 m/s²; setelah habis → `confirmed` + SMS |
 
+### Uji UI halaman Riwayat (pembaruan 22 November 2026)
+
+| Kode | Langkah | Hasil yang diharapkan |
+|---|---|---|
+| UJ-26 | Buka Riwayat dengan lebih dari 10 kejadian | Daftar dikelompokkan **Hari ini / Kemarin / tanggal**; tile ringkasan Total, Terkonfirmasi, Dibatalkan tampil |
+| UJ-27 | Ketuk filter **Terkonfirmasi**, lalu **Dibatalkan** | Daftar berubah **instan** tanpa layar loading dan tanpa kehilangan data |
+| UJ-28 | Tarik daftar ke bawah (pull-to-refresh) | Indikator refresh muncul, data dimuat ulang, posisi filter tetap |
+| UJ-29 | Matikan API lalu tekan ikon refresh | Data lama tetap tampil, banner merah “Coba lagi” muncul, aplikasi tidak crash |
+| UJ-30 | Buat kejadian saat offline (mode pesawat) | Kartu amber **“Menunggu terkirim”** dengan border; tombol Maps tetap berfungsi; tap kartu menampilkan pesan antrean |
+| UJ-31 | Buka Riwayat pada layar kecil (≤ 360 dp) | Tiga chip filter membungkus ke baris berikutnya, tidak ada chip yang terpotong |
+
+### Uji UI halaman Beranda (pembaruan 26 November 2026)
+
+| Kode | Langkah | Hasil yang diharapkan |
+|---|---|---|
+| UJ-32 | Buka Beranda saat pemantauan mati | Kartu merah **“Pemantauan NONAKTIF”**, chip sensitivitas + hitung mundur sesuai pengaturan, tombol hijau **Aktifkan Pemantauan** |
+| UJ-33 | Tekan **Aktifkan Pemantauan** | Kartu berubah hijau **“Pemantauan AKTIF”**, tombol menjadi biru **Nonaktifkan Pemantauan** |
+| UJ-34 | Tarik Beranda ke bawah (pull-to-refresh) | Indikator refresh muncul; angka ringkasan dan kejadian terakhir diperbarui tanpa berpindah tab |
+| UJ-35 | Matikan API lalu tarik/refresh Beranda | Data lama tetap tampil, banner merah **“Coba lagi”** muncul, aplikasi tidak crash |
+| UJ-36 | Tekan **Minta Bantuan Sekarang** | Dialog konfirmasi menyebut jumlah kontak; **Batal** tidak mengirim SMS, **Ya, kirim** mengirim tepat satu SMS |
+| UJ-37 | Cabut izin SMS/lokasi lewat pengaturan aplikasi, lalu kembali ke Beranda | Kartu kuning **“Izin belum lengkap”** muncul dengan tombol **Buka pengaturan aplikasi** |
+| UJ-38 | Setelah SMS terkirim, tutup kartu status SMS | Kartu status hilang dan tidak muncul lagi sampai kejadian berikutnya |
+| UJ-39 | Tekan **Lihat semua** pada kejadian terakhir dan **Kelola** pada kartu kontak | Pindah ke tab Riwayat / Kontak tanpa menumpuk layar (tombol Back kembali ke Beranda) |
+
+### Uji UI Kontak dan Profil
+
+| Kode | Langkah | Hasil yang diharapkan |
+|---|---|---|
+| UJ-40 | Tambah kontak, buka detailnya, lalu edit | Tiap penyimpanan hanya kembali satu layar; daftar dan detail menampilkan perubahan tanpa refresh manual |
+| UJ-41 | Coba nomor yang sudah terdaftar dengan format `08…` atau `+62…`; ubah isian lalu tekan Back | Nomor duplikat ditandai di kolom telepon saat daftar berhasil dimuat; perubahan yang belum disimpan memunculkan dialog |
+| UJ-42 | Buka dialog hapus kontak utama dan kontak terakhir pada profil uji | Peringatan menjelaskan akibatnya; Batal tidak menghapus, tombol hapus dinonaktifkan saat permintaan diproses |
+| UJ-43 | Muat daftar kontak, putuskan jaringan, lalu tarik untuk refresh | Daftar lama tetap tampil bersama pesan dan tombol Coba lagi |
+| UJ-44 | Buka Profil dengan API pengaturan tidak tersedia | Bagian deteksi menampilkan kesalahan dan Coba lagi, bukan opsi default yang bisa disimpan |
+| UJ-45 | Simpan nama pada profil uji dengan NIM dan nomor terisi; lalu simpan sensitivitas secara terpisah | NIM dan nomor tetap sama; tiap tindakan punya umpan balik sendiri |
+| UJ-46 | Ubah izin di pengaturan Android lalu kembali ke Profil; tes juga switch SMS | Status izin diperbarui. Switch SMS tersimpan di perangkat tanpa menekan Simpan Pengaturan Deteksi |
+
 ### Uji trigger sensor fisik (tanpa tombol "Simulasi Jatuh")
 
 Ambang batas default di `FallDetector.kt`: benturan **≥ 25 m/s²**, jeda **1 detik**, lalu kondisi

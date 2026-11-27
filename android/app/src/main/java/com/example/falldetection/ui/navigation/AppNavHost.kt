@@ -92,7 +92,25 @@ fun AppNavHost(container: AppContainer) {
         }
 
         composable("beranda") {
-            TabsScaffold(navController, "beranda") { HomeScreen(container) }
+            TabsScaffold(navController, "beranda") {
+                HomeScreen(
+                    container = container,
+                    onOpenHistory = {
+                        navController.navigate("riwayat") {
+                            launchSingleTop = true
+                            restoreState = true
+                            popUpTo("beranda") { saveState = true }
+                        }
+                    },
+                    onOpenContacts = {
+                        navController.navigate("kontak") {
+                            launchSingleTop = true
+                            restoreState = true
+                            popUpTo("beranda") { saveState = true }
+                        }
+                    },
+                )
+            }
         }
 
         composable("riwayat") {

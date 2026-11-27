@@ -10,10 +10,30 @@ object Format {
         .ofPattern("EEEE, dd MMM yyyy, HH.mm", Locale("id", "ID"))
         .withZone(ZoneId.of("Asia/Jakarta"))
 
+    private val dateFormatter = DateTimeFormatter
+        .ofPattern("EEEE, dd MMM yyyy", Locale("id", "ID"))
+        .withZone(ZoneId.of("Asia/Jakarta"))
+
+    private val timeFormatter = DateTimeFormatter
+        .ofPattern("HH.mm", Locale("id", "ID"))
+        .withZone(ZoneId.of("Asia/Jakarta"))
+
     fun dateTime(iso: String): String = try {
         "${displayFormatter.format(OffsetDateTime.parse(iso).toInstant())} WIB"
     } catch (_: Exception) {
         iso
+    }
+
+    fun date(iso: String): String = try {
+        dateFormatter.format(OffsetDateTime.parse(iso).toInstant())
+    } catch (_: Exception) {
+        iso
+    }
+
+    fun time(iso: String): String = try {
+        timeFormatter.format(OffsetDateTime.parse(iso).toInstant())
+    } catch (_: Exception) {
+        "--.--"
     }
 
     fun mapsUrl(latitude: Double?, longitude: Double?): String? =
@@ -46,5 +66,14 @@ object Format {
         "cancelled" -> "Dibatalkan"
         "resolved" -> "Sudah ditangani"
         else -> status.replaceFirstChar { it.uppercase() }
+    }
+
+    /** Nama sensitivitas mengikuti ambang batas yang dipakai Profil. */
+    fun sensitivityLabel(threshold: Double?): String? = when {
+        threshold == null -> null
+        threshold >= 28 -> "Rendah"
+        threshold >= 23 -> "Sedang"
+        threshold >= 18 -> "Tinggi"
+        else -> "Demo"
     }
 }

@@ -1,16 +1,19 @@
 package com.example.falldetection.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -30,12 +33,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.falldetection.ui.theme.Danger
-import com.example.falldetection.ui.theme.LightBlue
 import com.example.falldetection.ui.theme.Success
 import com.example.falldetection.ui.theme.TextPrimary
+import com.example.falldetection.ui.theme.TextSecondary
+import com.example.falldetection.ui.theme.Warning
 import com.example.falldetection.util.Format
 
 @Composable
@@ -72,10 +79,12 @@ fun SecondaryButton(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.primary,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     OutlinedButton(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier.fillMaxWidth().heightIn(min = 56.dp),
     ) {
         Text(text, style = MaterialTheme.typography.labelMedium, color = color)
@@ -98,14 +107,37 @@ fun SectionCard(
 
 @Composable
 fun StatusBadge(status: String, pending: Boolean = false) {
-    val (label, color, icon) = when {
-        pending -> Triple("Menunggu terkirim", Danger, Icons.Default.Refresh)
-        status == "confirmed" -> Triple("Terkonfirmasi", Danger, Icons.Default.Warning)
-        status == "cancelled" -> Triple("Dibatalkan", Color(0xFF6E6E6E), Icons.Default.Close)
-        status == "resolved" -> Triple("Sudah ditangani", Success, Icons.Default.Check)
-        else -> Triple(Format.statusLabel(status), Color(0xFF6E6E6E), Icons.Default.Check)
+    val label: String
+    val color: Color
+    val icon: ImageVector
+    when {
+        pending -> {
+            label = "Menunggu terkirim"
+            color = Warning
+            icon = Icons.Default.Refresh
+        }
+        status == "confirmed" -> {
+            label = "Terkonfirmasi"
+            color = Danger
+            icon = Icons.Default.Warning
+        }
+        status == "cancelled" -> {
+            label = "Dibatalkan"
+            color = TextSecondary
+            icon = Icons.Default.Close
+        }
+        status == "resolved" -> {
+            label = "Sudah ditangani"
+            color = Success
+            icon = Icons.Default.Check
+        }
+        else -> {
+            label = Format.statusLabel(status)
+            color = TextSecondary
+            icon = Icons.Default.Check
+        }
     }
-    Surface(color = LightBlue, shape = MaterialTheme.shapes.medium) {
+    Surface(color = color.copy(alpha = 0.12f), shape = MaterialTheme.shapes.medium) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -151,5 +183,47 @@ fun EmptyBox(message: String) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(message, style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+/** Tile angka ringkas: dipakai Beranda dan Riwayat agar tampilan konsisten. */
+@Composable
+fun SummaryTile(
+    label: String,
+    value: Int,
+    color: Color,
+    modifier: Modifier = Modifier,
+) {
+    Surface(modifier = modifier, color = color.copy(alpha = 0.10f), shape = MaterialTheme.shapes.medium) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(vertical = 10.dp, horizontal = 6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text("$value", style = MaterialTheme.typography.titleMedium, color = color)
+            Text(
+                label,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+/** Avatar bulat berisi huruf awal nama; dipakai kartu kontak dan profil. */
+@Composable
+fun InitialAvatar(name: String, size: Dp = 48.dp, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier.size(size),
+        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+        shape = CircleShape,
+    ) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(
+                text = name.trim().take(1).ifBlank { "?" }.uppercase(),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
     }
 }
